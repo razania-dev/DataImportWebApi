@@ -1,57 +1,61 @@
 ﻿using ProductImportApi.Dtos;
 using ProductImportApi.Models;
+using ProductImportApi.Repositories;
 
-namespace ProductImportApi.Services
+namespace ProductImportApi.Services;
+
+public class ProductService
 {
-    public class ProductService
+    private readonly ProductRepository _productRepository;
+
+    public ProductService(ProductRepository productRepository)
     {
-        private static readonly List<Product> Products = new();
-        private static int _nextId = 1;
+        _productRepository = productRepository;
+    }
 
-        public ProductResponse CreateProduct(CreateProductRequest request)
+    public ProductResponse CreateProduct(CreateProductRequest request)
+    {
+        var product = new Product
         {
-            var product = new Product
-            {
-                Id = _nextId++,
-                Name = request.Name,
-                Price = request.Price,
-                Stock = request.Stock
-            };
+            Name = request.Name,
+            Price = request.Price,
+            Stock = request.Stock
+        };
 
-            Products.Add(product);
+        var createdProduct = _productRepository.Add(product);
 
-            return ToResponse(product);
+        return ToResponse(createdProduct);
+    }
 
+    public List<ProductResponse> GetProducts()
+    {
+        var products = _productRepository.GetAll();
+
+        return products
+            .Select(product => ToResponse(product))
+            .ToList();
+    }
+
+    public ProductResponse? GetProduct(int id)
+    {
+        var product = _productRepository.GetById(id);
+
+        if (product == null)
+        {
+            return null;
         }
 
-        public List<ProductResponse> GetProducts()
+        return ToResponse(product);
+    }
+
+    private ProductResponse ToResponse(Product product)
+    {
+        return new ProductResponse
         {
-            return Products
-                .Select(product => ToResponse(product))
-                .ToList();
-        }
-
-        public ProductResponse? GetProduct(int id)
-        {
-            var product = Products.FirstOrDefault(x => x.Id == id);
-
-            if (product == null)
-            {
-                return null;
-            }
-
-            return ToResponse(product);
-        }
-
-        private ProductResponse ToResponse(Product product)
-        {
-            return new ProductResponse
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Price = product.Price,
-                Stock = product.Stock
-            };
-        }
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price,
+            Stock = product.Stock
+        };
     }
 }
