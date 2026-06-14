@@ -1,0 +1,2 @@
+# DataImportWebApi
+SwaggerからJSON形式のデータを送信し、その内容をC#で受け取ってMySQLに保存するWeb API
