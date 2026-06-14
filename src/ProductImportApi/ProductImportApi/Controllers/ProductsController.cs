@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductImportApi.Dtos;
 using ProductImportApi.Models;
+using ProductImportApi.Properties.Services;
 
 namespace ProductImportApi.Controllers;
 
@@ -8,65 +9,39 @@ namespace ProductImportApi.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private static readonly List<Product> Products = new();
-    private static int _nextId = 1;
+    private readonly ProductService _productService;
+
+    public ProductsController(ProductService productService)
+    {
+        _productService = productService;
+    }
 
     [HttpPost]
-    public ActionResult<Product> CreateProduct(CreateProductRequest request)
+    public ActionResult<ProductResponse> CreateProduct(CreateProductRequest request)
     {
-        var product = new Product
-        {
-            Id = _nextId++,
-            Name = request.Name,
-            Price = request.Price,
-            Stock = request.Stock
-        };
+        var response = _productService.CreateProduct(request);
 
-        var response = new ProductResponse
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Price = product.Price,
-            Stock = product.Stock
-        };
-
-        Products.Add(product);
-
-        return Ok(product);
+        return Ok(response);
     }
 
     [HttpGet]
-    public ActionResult<List<Product>> GetProducts()
+    public ActionResult<List<ProductResponse>> GetProducts()
     {
-        var responses = Products.Select(product => new ProductResponse
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Price = product.Price,
-            Stock = product.Stock
-        }).ToList();
+        var responses = _productService.GetProducts();
 
-        return Ok(Products);
+        return Ok(responses);
     }
 
     [HttpGet("{id}")]
-    public ActionResult<Product> GetProduct(int id)
+    public ActionResult<ProductResponse> GetProduct(int id)
     {
-        var product = Products.FirstOrDefault(x => x.Id == id);
+        var response = _productService.GetProduct(id);
 
-        if (product == null)
+        if (response == null)
         {
             return NotFound();
         }
 
-        var response = new ProductResponse
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Price = product.Price,
-            Stock = product.Stock
-        };
-
-        return Ok(product);
+        return Ok(response);
     }
 }
