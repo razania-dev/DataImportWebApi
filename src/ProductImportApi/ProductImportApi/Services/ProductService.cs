@@ -1,7 +1,7 @@
 ﻿using ProductImportApi.Dtos;
 using ProductImportApi.Models;
 
-namespace ProductImportApi.Properties.Services
+namespace ProductImportApi.Services
 {
     public class ProductService
     {

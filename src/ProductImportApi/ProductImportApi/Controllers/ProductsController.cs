@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductImportApi.Dtos;
 using ProductImportApi.Models;
-using ProductImportApi.Properties.Services;
+using ProductImportApi.Services;
 
 namespace ProductImportApi.Controllers;
 
