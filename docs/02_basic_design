@@ -1,0 +1,18 @@
+# 基本設計書
+
+## API一覧
+
+| メソッド | URL | 内容 |
+|---|---|---|
+| POST | /api/products | 商品登録 |
+| GET | /api/products | 商品一覧取得 |
+| GET | /api/products/{id} | 商品1件取得 |
+
+## 登録JSON例
+
+```json
+{
+  "name": "Keyboard",
+  "price": 3000,
+  "stock": 10
+}
