@@ -17,5 +17,6 @@ namespace ProductImportApi.Dtos
         [Range(0, int.MaxValue, ErrorMessage = "在庫数は0以上で入力してください。")]
         public int Stock { get; set; }
     }
+
     /// IDがない理由は入力データから勝手に決められないようにするため 
 }
