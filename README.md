@@ -164,6 +164,3 @@ CREATE TABLE products (
 * READMEへの実行手順追加
 * API仕様の整理
 
-```
-```
-
