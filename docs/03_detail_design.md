@@ -43,8 +43,6 @@ ProductImportApi
 | CreateProductRequest         | 商品登録時にSwaggerから受け取るJSONデータ                |
 | ProductResponse              | APIから返す商品データ                              |
 | Program.cs                   | ServiceやRepositoryをDIコンテナに登録し、アプリの起動設定を行う |
-| appsettings.json             | GitHubに公開可能な基本設定を管理する                     |
-| appsettings.Development.json | ローカル開発用の接続情報を管理する                         |
 
 ## 処理の流れ
 
