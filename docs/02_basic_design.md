@@ -55,5 +55,6 @@
 
 ## 今後追加予定のAPI
 | method | URL | 内容 |
+|---|---|---|
 | PUT | /api/Product{ID} | 商品データを更新する |
 | DELETE | /api/Product{ID} | 商品データを削除する |
