@@ -16,6 +16,7 @@ public class ProductRepository
     {
         using var connection = new MySqlConnection(_connectionString);
 
+        // MySQLとの接続 
         connection.Open();
 
         var sql = @"
@@ -99,5 +100,44 @@ public class ProductRepository
             Price = reader.GetInt32("price"),
             Stock = reader.GetInt32("stock")
         };
+    }
+
+    public Product? Update(int id, Product product)
+    {
+        using var connection = new MySqlConnection(_connectionString);
+
+        connection.Open();
+
+        var sql =
+            @"
+UPDATE 
+products
+SET 
+name = @name,
+price = @price,
+stock = @stock
+WHERE
+id = @id
+;
+";
+
+
+        using var command = new MySqlCommand(sql, connection);
+
+        command.Parameters.AddWithValue("@id", id);
+        command.Parameters.AddWithValue("@name", product.Name);
+        command.Parameters.AddWithValue("@price", product.Price);
+        command.Parameters.AddWithValue("@stock", product.Stock);
+
+        var affectedRows = command.ExecuteNonQuery();
+
+        if (affectedRows == 0)
+        {
+            return null;
+        }
+
+        product.Id = id;
+
+        return product;
     }
 }

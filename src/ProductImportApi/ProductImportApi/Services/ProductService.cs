@@ -48,6 +48,25 @@ public class ProductService
         return ToResponse(product);
     }
 
+    public ProductResponse? UpdateProduct(int id, UpdateProductRequest request)
+    {
+        var product = new Product
+        {
+            Name = request.Name,
+            Price = request.Price,
+            Stock = request.Stock
+        };
+
+        var updatedProduct = _productRepository.Update(id, product);
+
+        if (updatedProduct == null)
+        {
+            return null;
+        }
+
+        return ToResponse(updatedProduct);
+    }
+
     private ProductResponse ToResponse(Product product)
     {
         return new ProductResponse

@@ -32,6 +32,19 @@ public class ProductsController : ControllerBase
         return Ok(responses);
     }
 
+    [HttpPut("{id}")]
+    public ActionResult<ProductResponse> UpdateProduct(int id, UpdateProductRequest request)
+    {
+        var response = _productService.UpdateProduct(id, request);
+
+        if (response == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(response);
+    }
+
     [HttpGet("{id}")]
     public ActionResult<ProductResponse> GetProduct(int id)
     {
