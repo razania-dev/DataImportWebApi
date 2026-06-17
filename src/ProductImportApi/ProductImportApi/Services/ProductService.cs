@@ -67,6 +67,11 @@ public class ProductService
         return ToResponse(updatedProduct);
     }
 
+    public bool DeleteProduct(int id)
+    {
+        return _productRepository.Delete(id);
+    }
+
     private ProductResponse ToResponse(Product product)
     {
         return new ProductResponse

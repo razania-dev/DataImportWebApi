@@ -110,14 +110,9 @@ public class ProductRepository
 
         var sql =
             @"
-UPDATE 
-products
-SET 
-name = @name,
-price = @price,
-stock = @stock
-WHERE
-id = @id
+UPDATE products
+SET name = @name, price = @price, stock = @stock
+WHERE id = @id
 ;
 ";
 
@@ -139,5 +134,24 @@ id = @id
         product.Id = id;
 
         return product;
+    }
+
+    public bool Delete(int id)
+    {
+        using var connection = new MySqlConnection(_connectionString);
+        connection.Open();
+
+        var sql =
+            @"
+DELETE FROM products
+WHERE id = @id
+;";
+
+        using var command = new MySqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@id", id);
+
+        var affectedRows = command.ExecuteNonQuery();
+
+        return affectedRows > 0;
     }
 }

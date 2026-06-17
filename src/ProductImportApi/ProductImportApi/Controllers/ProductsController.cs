@@ -45,6 +45,19 @@ public class ProductsController : ControllerBase
         return Ok(response);
     }
 
+    [HttpDelete("{id}")]
+    public IActionResult DeleteProduct(int id)
+    {
+        var deleted = _productService.DeleteProduct(id);
+
+        if (deleted == false)
+        {
+            return NotFound();
+        }
+
+        return NoContent();
+    }
+
     [HttpGet("{id}")]
     public ActionResult<ProductResponse> GetProduct(int id)
     {
